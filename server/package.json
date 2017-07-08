@@ -13,6 +13,7 @@
     "backpack-core": "^0.4.0-rc1",
     "colors": "^1.1.2",
     "express": "^4.15.3",
+    "mongoose": "^4.11.1",
     "squarify": "^0.1.1"
   }
 }
