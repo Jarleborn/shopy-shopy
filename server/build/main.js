@@ -74,9 +74,56 @@ module.exports = __webpack_require__(1);
 
 /***/ }),
 /* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_dbconnecter__ = __webpack_require__(2);
+
+
+__WEBPACK_IMPORTED_MODULE_0__modules_dbconnecter__["a" /* connectToDB */]().then(function (res) {
+  console.log(res);
+}).catch(function (err) {
+  console.log(err);
+});
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return connectToDB; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__secrets_auth__ = __webpack_require__(4);
+var mongoose = __webpack_require__(3);
+
+
+function connectToDB() {
+  return new Promise(function (resolve, reject) {
+    mongoose.connect('mongodb://root:' + __WEBPACK_IMPORTED_MODULE_0__secrets_auth__["a" /* pass */] + '@ds123662.mlab.com:23662/nassel');
+    var db = mongoose.connection;
+    db.on('error', reject('error'));
+    db.once('open', function () {
+      console.log('connected');
+      resolve('connected');
+    });
+  });
+}
+
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
+module.exports = require("mongoose");
 
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return pass; });
+var pass = 'pass';
 
 /***/ })
 /******/ ]);
