@@ -78,10 +78,41 @@ module.exports = __webpack_require__(1);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_dbconnecter__ = __webpack_require__(2);
+/* WEBPACK VAR INJECTION */(function(__dirname) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_dbconnecter__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_getters__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_saver__ = __webpack_require__(9);
 
 
-__WEBPACK_IMPORTED_MODULE_0__modules_dbconnecter__["a" /* connectToDB */]();
+
+
+var express = __webpack_require__(5);
+var app = express();
+var http = __webpack_require__(6).Server(app);
+var port = '1337';
+
+var db = '';
+
+__WEBPACK_IMPORTED_MODULE_0__modules_dbconnecter__["a" /* connectToDB */]().then(function (res) {
+  db = res.db;
+});
+
+app.use(express.static(__dirname + '/public'));
+app.all('/', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  next();
+});
+
+app.get('/getPages', function (req, res) {
+  __WEBPACK_IMPORTED_MODULE_1__modules_getters__["a" /* getPages */]().then(function (res) {
+    console.log(res);
+  });
+});
+
+app.listen(port, function () {
+  console.log('Our app is running on http://localhost:' + port);
+});
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, "src"))
 
 /***/ }),
 /* 2 */
@@ -94,12 +125,16 @@ var mongoose = __webpack_require__(3);
 
 
 function connectToDB() {
-  var promise = mongoose.connect('mongodb://root:' + __WEBPACK_IMPORTED_MODULE_0__secrets_auth__["a" /* pass */] + '@ds123662.mlab.com:23662/nassel', {
-    useMongoClient: true
-    /* other options */
-  });
-  promise.then(function (db) {
-    console.log(db);
+  return new Promise(function (resolve, reject) {
+    var promise = mongoose.connect('mongodb://root:' + __WEBPACK_IMPORTED_MODULE_0__secrets_auth__["a" /* pass */] + '@ds123662.mlab.com:23662/nassel', {
+      useMongoClient: true
+    });
+    promise.then(function (db) {
+      resolve(db);
+    });
+    promise.catch(function (err) {
+      reject(err);
+    });
   });
 }
 
@@ -118,6 +153,86 @@ module.exports = require("mongoose");
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return pass; });
 var pass = 'pass';
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = require("express");
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+module.exports = require("http");
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getPages; });
+// const mongoose = require('mongoose')
+// import {pass} from '../../../secrets/auth'
+var pageModel = __webpack_require__(8);
+
+function getPages(db) {
+  return new Promise(function (resolve, reject) {
+    pageModel.find(function (err, pagesFound) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else if (pagesFound.length === 0) {
+        resolve('No pages found');
+      } else if (pagesFound) {
+        console.log('found: ' + pagesFound.length + 'pages');
+        resolve(pagesFound);
+        return pagesFound;
+      }
+    });
+  });
+}
+
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var mongoose = __webpack_require__(3);
+var pageS = mongoose.Schema({
+  name: String,
+  text: String
+});
+
+var Page = mongoose.model('page', pageS);
+
+module.exports = Page;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export savePage */
+// const mongoose = require('mongoose')
+// import {pass} from '../../../secrets/auth'
+var pageModel = __webpack_require__(8);
+
+function savePage(page) {
+  return new Promise(function (resolve, reject) {
+    var newPage = new pageModel(page);
+    newPage.save(function (err) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      }
+      resolve('saved');
+    });
+  });
+}
+
+
 
 /***/ })
 /******/ ]);
