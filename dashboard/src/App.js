@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import { Navbar, NavItem, Row, Col } from 'react-materialize'
 import Sidebar from './components/blocks/sidebar'
+import Pages from './components/pages/pages'
 class App extends Component {
   render() {
     return (
@@ -13,9 +14,7 @@ class App extends Component {
         <Sidebar />
         </Col>
         <Col s={8}>
-          <p className="App-intro">
-            To get started, edit <code>src/App.js</code> and save to reload.
-          </p>
+          <Pages />
         </Col>
           </Row>
         </div>
