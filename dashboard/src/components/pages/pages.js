@@ -29,14 +29,12 @@ class Pages extends Component{
   render(){
     console.log(this.state.pages)
     return(
-      // <ul>
-      //   <li> hej</li>
-      // // {this.state.pages.map(listValue =>{
-      // //   return <li> {listValue} </li>
-      // // })}
-      // </ul>
-
-      <p> yoyo </p>
+      <ul>
+        <li> hej</li>
+      {this.state.pages.map(listValue =>{
+        return <li> {listValue} </li>
+      })}
+      </ul>
     )
   }
 }
