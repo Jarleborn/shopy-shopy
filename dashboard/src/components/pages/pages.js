@@ -6,24 +6,37 @@ class Pages extends Component{
   }
 
   componentDidMount(){
-    fetch('http;//localhost:1337/getPages', {
+    fetch('http://localhost:1337/getPages', {
       method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
+      mode: 'cors',
+      // headers: {
+      //   'Accept': 'application/json',
+      //   'Content-Type': 'application/json',
+      // },
     })
     .then(res => {
-      const pagess = res.json()
-      this.setState({'pages':pagess})
+      const pagesFound = res.json()
+      return pagesFound
+    })
+    .then(pagesFound => {
+      console.log(pagesFound)
+      this.setState({'pages':pagesFound})
     })
     .catch(err => {
       console.log(err)
     })
   }
   render(){
+    console.log(this.state.pages)
     return(
-      <p>bajs</p>
+      // <ul>
+      //   <li> hej</li>
+      // // {this.state.pages.map(listValue =>{
+      // //   return <li> {listValue} </li>
+      // // })}
+      // </ul>
+
+      <p> yoyo </p>
     )
   }
 }
